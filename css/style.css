@@ -1,0 +1,11 @@
+.game-btn {
+    color: #000 !important;
+    width: 10em;
+    height: 5em;
+    text-align: center;
+}
+
+.game-container {
+    width: 100vw;
+    height: 100vh;
+}
