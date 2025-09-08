@@ -11,7 +11,6 @@ import {
 const btnWidth = 10;
 const btnHeight = 5;
 const btnShowTimeSec = 2;
-
 const buttonText = 'button';
 const buttonClassText = 'game-btn';
 const pixelText = 'px';
@@ -84,7 +83,6 @@ class Button {
         btn.style.left = this.left + pixelText;
         btn.style.top = this.top + pixelText;
         btn.style.position = absolutePositionText;
-        console.log(listen)
         if (listen && !this.pressed) {
             btn.addEventListener(clickText, () => {
                 this.pressed = true;
