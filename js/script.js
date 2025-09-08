@@ -204,6 +204,7 @@ class ButtonGame {
     }
 
     endGame(won) {
+        this.buttonIndex = 1;
         this.container.innerHTML = emptyText;
         const msg = document.createElement(elementDivText);
         msg.textContent = won ? MSG_WIN : MSG_LOSE;
