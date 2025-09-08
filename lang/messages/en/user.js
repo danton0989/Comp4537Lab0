@@ -3,3 +3,4 @@ export const MSG_WIN = "You Win!";
 export const MSG_LOSE = "You Lose!";
 export const MSG_BACK_TO_MENU = "Back to Menu";
 export const MSG_GO = "Go!";
+export const MSG_INVALID_NUMBER = "Please enter a number between 3 and 7.";

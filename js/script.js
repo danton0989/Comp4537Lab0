@@ -5,7 +5,8 @@ import {
     MSG_WIN,
     MSG_LOSE,
     MSG_BACK_TO_MENU,
-    MSG_GO
+    MSG_GO,
+    MSG_INVALID_NUMBER
 } from '../lang/messages/en/user.js';
 
 const BUTTON_WIDTH = 10;
@@ -16,6 +17,8 @@ const TOP = 0;
 const LEFT = 0;
 const INDEX_ZERO_DISPLACEMENT = 1;
 const RANDOMIZE_TIMES = 3;
+const INPUT_MIN = 3;
+const INPUT_MAX = 7;
 
 const buttonText = 'button';
 const buttonClassText = 'game-btn';
@@ -174,7 +177,8 @@ class ButtonGame {
         this.buttonClickHandler = this.buttonClickHandler.bind(this);
     }
 
-    menu() {
+    menu(errorMsg = null) {
+        this.container.innerHTML = emptyText;
         const label = document.createElement(labelText);
         label.setAttribute(attributeForText, attributeNumButtonsText);
         label.textContent = MSG_HOW_MANY_BUTTONS;
@@ -185,11 +189,24 @@ class ButtonGame {
         input.id = attributeNumButtonsText;
         this.container.appendChild(input);
 
+        if (errorMsg) {
+            const errorDiv = document.createElement(elementDivText);
+            errorDiv.style.color = 'red';
+            errorDiv.style.margin = '0.5em 0';
+            errorDiv.textContent = errorMsg;
+            this.container.appendChild(errorDiv);
+        }
+
         const startBtn = document.createElement(buttonText);
         startBtn.textContent = MSG_GO;
         startBtn.addEventListener(clickText, () => {
             const inputValue = document.getElementById(attributeNumButtonsText).value;
-            this.startGame(parseInt(inputValue));
+            const num = parseInt(inputValue);
+            if (isNaN(num) || num < INPUT_MIN || num > INPUT_MAX) {
+                this.menu(MSG_INVALID_NUMBER);
+            } else {
+                this.startGame(num);
+            }
         });
         this.container.appendChild(startBtn);
     }
