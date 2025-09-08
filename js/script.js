@@ -191,6 +191,7 @@ class ButtonGame {
     async startGame(num) {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
+        console.log(this.buttonIndex);
 
         this.container.innerHTML = emptyText;
         this.buttonsManager.clearButtons();
