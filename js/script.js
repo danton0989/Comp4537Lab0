@@ -8,9 +8,15 @@ import {
     MSG_GO
 } from '../lang/messages/en/user.js';
 
-const btnWidth = 10;
-const btnHeight = 5;
-const btnShowTimeSec = 2;
+const BUTTON_WIDTH = 10;
+const BUTTON_HEIGHT = 5;
+const BUTTON_SHOW_TIME_SECOND = 2;
+const BUTTON_INITIAL_INDEX = 1;
+const TOP = 0;
+const LEFT = 0;
+const INDEX_ZERO_DISPLACEMENT = 1;
+const RANDOMIZE_TIMES = 3;
+
 const buttonText = 'button';
 const buttonClassText = 'game-btn';
 const pixelText = 'px';
@@ -109,18 +115,18 @@ class ButtonsManager {
     createButtons(num, windowWidth, clickHandler) {
         // Get em size in px
         const emSize = parseFloat(getComputedStyle(document.body).fontSize);
-        const btnWidthPx = btnWidth * emSize;
-        const btnHeightPx = btnHeight * emSize;
+        const btnWidthPx = BUTTON_WIDTH * emSize;
+        const btnHeightPx = BUTTON_HEIGHT * emSize;
         const colors = Utility.getRandomColors(num);
-        let x = 0;
-        let y = 0;
+        let x = LEFT;
+        let y = TOP;
         for (let i = 1; i <= num; i++) {
             if (x + btnWidthPx > windowWidth) {
-                x = 0;
+                x = LEFT;
                 y += btnHeightPx;
             }
             const position = { top: y, left: x };
-            const btn = new Button(i, colors[i - 1], position, clickHandler);
+            const btn = new Button(i, colors[i - INDEX_ZERO_DISPLACEMENT], position, clickHandler);
             this.buttons.push(btn);
             x += btnWidthPx;
         }
@@ -148,7 +154,7 @@ class ButtonsManager {
     }
 
     randomizeButtonLocations(windowWidth, windowHeight) {
-        const positions = Utility.getRandomPositions(this.count, btnWidth, btnHeight, windowWidth, windowHeight);
+        const positions = Utility.getRandomPositions(this.count, BUTTON_WIDTH, BUTTON_HEIGHT, windowWidth, windowHeight);
         this.buttons.forEach((btn, index) => {
             btn.position = positions[index];
         });
@@ -164,7 +170,7 @@ class ButtonGame {
         this.container = container;
         this.buttonsManager = new ButtonsManager(container);
         this.state = menuText;
-        this.buttonIndex = 1;
+        this.buttonIndex = BUTTON_INITIAL_INDEX;
         this.buttonClickHandler = this.buttonClickHandler.bind(this);
     }
 
@@ -191,21 +197,20 @@ class ButtonGame {
     async startGame(num) {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
-        console.log(this.buttonIndex);
 
         this.container.innerHTML = emptyText;
         this.buttonsManager.clearButtons();
         this.buttonsManager.createButtons(num, windowWidth, this.buttonClickHandler);
         await this.buttonsManager.showButtons(this.buttonsManager.count);
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < RANDOMIZE_TIMES; i++) {
             this.buttonsManager.randomizeButtonLocations(windowWidth, windowHeight);
-            await this.buttonsManager.showButtons(btnShowTimeSec);
+            await this.buttonsManager.showButtons(BUTTON_SHOW_TIME_SECOND);
         }
         this.buttonsManager.renderButtons();
     }
 
     endGame(won) {
-        this.buttonIndex = 1;
+        this.buttonIndex = BUTTON_INITIAL_INDEX;
         this.container.innerHTML = emptyText;
         const msg = document.createElement(elementDivText);
         msg.textContent = won ? MSG_WIN : MSG_LOSE;
