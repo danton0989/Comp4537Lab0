@@ -16,7 +16,6 @@ const BUTTON_INITIAL_INDEX = 1;
 const TOP = 0;
 const LEFT = 0;
 const INDEX_ZERO_DISPLACEMENT = 1;
-const RANDOMIZE_TIMES = 3;
 const INPUT_MIN = 3;
 const INPUT_MAX = 7;
 
@@ -217,7 +216,7 @@ class ButtonGame {
         this.buttonsManager.clearButtons();
         this.buttonsManager.createButtons(num, windowWidth, this.buttonClickHandler);
         await this.buttonsManager.showButtons(this.buttonsManager.count);
-        for (let i = 0; i < RANDOMIZE_TIMES; i++) {
+        for (let i = 0; i < this.buttonsManager.count; i++) {
             windowWidth = window.innerWidth;
             windowHeight = window.innerHeight;
             this.buttonsManager.randomizeButtonLocations(windowWidth, windowHeight);
