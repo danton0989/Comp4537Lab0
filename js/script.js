@@ -104,7 +104,6 @@ class Button {
     }
 }
 
-// TODO implement num validator
 class ButtonsManager {
     constructor(container) {
         this.container = container;
@@ -140,7 +139,6 @@ class ButtonsManager {
         this.buttons.forEach(btn => btn.render(this.container, false));
         await Utility.sleep(pauseTime * 1000);
         this.container.innerHTML = emptyText;
-
     }
 
     renderButtons() {
@@ -212,14 +210,16 @@ class ButtonGame {
     }
 
     async startGame(num) {
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
 
         this.container.innerHTML = emptyText;
         this.buttonsManager.clearButtons();
         this.buttonsManager.createButtons(num, windowWidth, this.buttonClickHandler);
         await this.buttonsManager.showButtons(this.buttonsManager.count);
         for (let i = 0; i < RANDOMIZE_TIMES; i++) {
+            windowWidth = window.innerWidth;
+            windowHeight = window.innerHeight;
             this.buttonsManager.randomizeButtonLocations(windowWidth, windowHeight);
             await this.buttonsManager.showButtons(BUTTON_SHOW_TIME_SECOND);
         }
